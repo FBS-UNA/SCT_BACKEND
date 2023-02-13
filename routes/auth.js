@@ -1,0 +1,28 @@
+const { Router } = require('express');
+const { check } = require('express-validator');
+const { crearUsuario, loginUsuario } = require('../controllers/auth.controller');
+const { validarCampos } = require('../middlewares/validar-campos');
+
+
+const router = Router();
+
+// Register
+router.post( '/register', [
+    check('CEDULA', 'La cedula es obligatoria').notEmpty().isLength({ min: 9 }),
+    check('CONTRASENA', 'La contraseña es obligatoria').notEmpty(),
+    check('NOMBRE', 'El nombre es obligatorio').notEmpty(),
+    check('APELLIDO_1', 'El apellido_1 es obligatorio').notEmpty(),
+    check('APELLIDO_2', 'El apellido_2 es obligatorio').notEmpty(),
+    check('ROL', 'El rol es obligatorio').notEmpty(),
+    validarCampos
+], crearUsuario);
+
+
+// Login
+router.post('/login',[
+    check( 'CEDULA', 'La cedula es obligatoria').notEmpty().isLength( {min: 9} ),
+    check( 'CONTRASENA', 'La contraseña es obligatoria').notEmpty(),
+    validarCampos
+], loginUsuario)
+
+module.exports = router;
