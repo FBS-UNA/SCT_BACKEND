@@ -38,7 +38,7 @@ const getAreas = async (req = request, res = response)=>{
 const agregarArea = async (req = request, res = response)=>{
     const {NOMBRE_AREA, DESCRIPCION_AREA, FECHA} = req.body;
 
-    const sql = "INSERT INTO AREAS VALUES (IDX_AREA_SEQ.NEXTVAL, :NOMBRE_AREA, :DESCRIPCION_AREA, TO_DATE(:FECHA, 'YYYY-MM-DD'))";
+    const sql = "INSERT INTO AREAS (NOMBRE_AREA, DESCRIPCION_AREA, FECHA) VALUES (:NOMBRE_AREA, :DESCRIPCION_AREA, TO_DATE(:FECHA, 'YYYY-MM-DD'))";
 
     try {
 
