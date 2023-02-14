@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { agregarArea, eliminarArea, actualizarArea } = require('../controllers/areas.controller');
+const { agregarArea, eliminarArea, actualizarArea, getAreas } = require('../controllers/areas.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 
@@ -8,6 +8,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
 // GET AREAS
+router.get('/', getAreas);
 
 // ADD AREA
 router.post('/agregar',[

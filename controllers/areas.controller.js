@@ -2,6 +2,39 @@ const BD = require('../database/config');
 const { response, request } = require('express');
 
 
+const getAreas = async (req = request, res = response)=>{
+
+    const sql = 'SELECT * FROM AREAS';
+    const areas = [];
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [], false);
+
+        dbresponse.rows.map((data)=>{
+            const area = {}
+            dbresponse.metaData.map(({name}, index)=>{
+                area[name] = data[index];
+            })
+            areas.push(area);
+        });
+
+
+        return res.json({
+            ok:true,
+            AREAS: areas
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+
+};
+
 const agregarArea = async (req = request, res = response)=>{
     const {NOMBRE_AREA, DESCRIPCION_AREA, FECHA} = req.body;
 
@@ -92,5 +125,6 @@ const actualizarArea = async (req = request, res = response)=>{
 module.exports = {
     agregarArea,
     eliminarArea,
-    actualizarArea
+    actualizarArea,
+    getAreas
 }
