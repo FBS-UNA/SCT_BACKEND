@@ -3,6 +3,39 @@ const { response, request } = require('express');
 
 
 
+const getTramites = async (req = request, res = response)=>{
+
+    const sql = 'SELECT * FROM TRAMITES';
+    const tramites = [];
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [], false);
+
+        dbresponse.rows.map((data)=>{
+            const tramite = {}
+            dbresponse.metaData.map(({name}, index)=>{
+                tramite[name] = data[index];
+            })
+            tramites.push(tramite);
+        });
+
+
+        return res.json({
+            ok:true,
+            TRAMITES: tramites
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+
+};
+
 const agregaTramite = async (req = request, res = response)=>{
     const {NOMBRE_TRAMITE, DESCRIPCION_TRAMITE, FECHA} = req.body;
 
@@ -91,6 +124,7 @@ const actualizarTramite = async (req = request, res = response)=>{
 
 
 module.exports = {
+    getTramites,
     agregaTramite,
     eliminarTramite,
     actualizarTramite
