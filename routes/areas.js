@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { agregarArea } = require('../controllers/areas.controller');
+const { agregarArea, eliminarArea, actualizarArea } = require('../controllers/areas.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 
@@ -17,7 +17,17 @@ router.post('/agregar',[
 ], agregarArea);
 
 // UPDATE AREA
+router.post('/actualizar',[
+    check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
+    check('NOMBRE_AREA', 'El NOMBRE_AREA es obligatorio').notEmpty(),
+    validarCampos
+],actualizarArea);
 
 // DELETE AREA
+router.post('/eliminar',[
+    check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
+    validarCampos
+],eliminarArea);
+
 
 module.exports = router;
