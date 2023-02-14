@@ -76,7 +76,7 @@ const eliminarArea = async (req = request, res = response)=>{
         }
 
         return res.status(200).json({
-            OK: true,
+            OK: true
         });
         
     } catch (error) {

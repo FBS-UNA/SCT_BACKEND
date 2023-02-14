@@ -25,10 +25,73 @@ const agregaTramite = async (req = request, res = response)=>{
             MSG: 'Por favor hable con el administrador'
         });
     }
-
 };
+
+const eliminarTramite = async (req = request, res = response)=>{
+    const { ID_TRAMITE } = req.body;
+
+    const sql = 'DELETE FROM TRAMITES WHERE ID_TRAMITE = :ID_TRAMITE';
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [ID_TRAMITE], true);
+
+        if(dbresponse.rowsAffected === 0 ){
+            return res.status(400).json({
+                OK: false,
+                MSG: 'Este ID_TRAMITE no es válido'
+            });
+        }
+
+        return res.status(200).json({
+            OK: true
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+}
+
+const actualizarTramite = async (req = request, res = response)=>{
+    const {ID_TRAMITE, NOMBRE_TRAMITE, DESCRIPCION_TRAMITE} = req.body
+
+    const sql = 'UPDATE TRAMITES SET NOMBRE_TRAMITE = :NOMBRE_TRAMITE, DESCRIPCION_TRAMITE = :DESCRIPCION_TRAMITE WHERE ID_TRAMITE = :ID_TRAMITE';
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [NOMBRE_TRAMITE, DESCRIPCION_TRAMITE, ID_TRAMITE], true);
+
+        if(dbresponse.rowsAffected === 0 ){
+            return res.status(400).json({
+                OK: false,
+                MSG: 'Este ID_TRAMITE no es válido'
+            });
+        }
+
+        return res.status(200).json({
+            OK: true,
+            NOMBRE_TRAMITE
+        });
+
+
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+
+}
 
 
 module.exports = {
-    agregaTramite
+    agregaTramite,
+    eliminarTramite,
+    actualizarTramite
 }
