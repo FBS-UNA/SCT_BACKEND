@@ -18,14 +18,14 @@ router.post('/agregar',[
 ], agregarArea);
 
 // UPDATE AREA
-router.post('/actualizar',[
+router.put('/actualizar',[
     check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
     check('NOMBRE_AREA', 'El NOMBRE_AREA es obligatorio').notEmpty(),
     validarCampos
 ],actualizarArea);
 
 // DELETE AREA
-router.post('/eliminar',[
+router.delete('/eliminar',[
     check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
     validarCampos
 ],eliminarArea);
