@@ -21,6 +21,7 @@ app.use( '/api/areas', require('./routes/areas'));
 app.use( '/api/tramites', require('./routes/tramites'));
 
 
+
 // Apertura del puerto en escucha
 app.listen( process.env.PORT , ()=>{
     console.log(`Servidor corriendo en el puerto -> ${ process.env.PORT }`)
