@@ -40,6 +40,7 @@
 
 🟥 npm i "nombre del paquete" -g
 
+
 # RESPONSE GUIDE
 200 OK: Indica que la solicitud se ha completado correctamente y que el servidor ha devuelto la información solicitada.
 

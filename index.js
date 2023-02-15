@@ -19,6 +19,7 @@ app.use( express.json() );
 app.use( '/api/auth', require('./routes/auth'));
 app.use( '/api/areas', require('./routes/areas'));
 app.use( '/api/tramites', require('./routes/tramites'));
+app.use( '/api/clientes', require('./routes/clientes'));
 
 
 

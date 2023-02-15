@@ -19,8 +19,8 @@ router.post('/agregar',[
 
 // UPDATE AREA
 router.put('/actualizar',[
-    check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
-    check('NOMBRE_AREA', 'El NOMBRE_AREA es obligatorio').notEmpty(),
+    check('ID_AREA', 'El ID del área es obligatorio').notEmpty().isNumeric(),
+    check('NOMBRE_AREA', 'El nombre del área es obligatorio').notEmpty(),
     validarCampos
 ],actualizarArea);
 
