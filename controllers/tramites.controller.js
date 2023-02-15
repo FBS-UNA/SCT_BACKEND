@@ -39,7 +39,7 @@ const getTramites = async (req = request, res = response)=>{
 const agregaTramite = async (req = request, res = response)=>{
     const {NOMBRE_TRAMITE, DESCRIPCION_TRAMITE, FECHA} = req.body;
 
-    const sql = "INSERT INTO TRAMITES (NOMBRE_TRAMITE, DESCRIPCION_TRAMITE, FECHA) VALUES (:NOMBRE_TRAMITE, :DESCRIPCION_TRAMITE, TO_DATE(:FECHA, 'YYYY-MM-DD'))";
+    const sql = "INSERT INTO TRAMITES (NOMBRE_TRAMITE, DESCRIPCION_TRAMITE, FECHA) VALUES (:NOMBRE_TRAMITE, :DESCRIPCION_TRAMITE, TO_DATE(:FECHA))";
 
     try {
         

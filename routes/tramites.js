@@ -12,7 +12,7 @@ router.get('/', getTramites);
 // ADD TRAMITE
 router.post('/agregar',[
     check('NOMBRE_TRAMITE', 'El nombre del trámite es obligatorio').notEmpty(),
-    check('FECHA', 'La fecha de creacion del trámite es obligatoria').notEmpty().isDate(),
+    check('FECHA', 'La fecha de creacion del trámite es obligatoria').notEmpty().isDate({format:'DD-MM-YYYY'}),
     validarCampos
 ],agregaTramite);
 

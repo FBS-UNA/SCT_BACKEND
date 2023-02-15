@@ -39,7 +39,7 @@ const agregarArea = async (req = request, res = response)=>{
     const {NOMBRE_AREA, DESCRIPCION_AREA, FECHA} = req.body;
 
 
-    const sql = "INSERT INTO AREAS (NOMBRE_AREA, DESCRIPCION_AREA, FECHA) VALUES (:NOMBRE_AREA, :DESCRIPCION_AREA, TO_DATE(:FECHA, 'YYYY-MM-DD'))";
+    const sql = "INSERT INTO AREAS (NOMBRE_AREA, DESCRIPCION_AREA, FECHA) VALUES (:NOMBRE_AREA, :DESCRIPCION_AREA, TO_DATE(:FECHA))";
 
 
     try {
