@@ -13,7 +13,9 @@ router.get('/', getAreas);
 // ADD AREA
 router.post('/agregar',[
     check('NOMBRE_AREA', 'El nombre del área es obligatorio').notEmpty(),
+
     check('FECHA', 'La fecha de creacion del área es obligatoria').notEmpty().isDate({format:'DD/MM/YYYY'}),
+
     validarCampos
 ], agregarArea);
 
