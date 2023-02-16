@@ -10,7 +10,9 @@ const router = Router();
 router.post('/agregar',[
     check('CEDULA_CLIENTE', 'La cédula del cliente es obligatoria').notEmpty().isLength({min: 9}),
     check('HORA', 'La hora es obligatoria para el registro').notEmpty(),
-    check('FECHA', 'La fecha proporcinada tiene un formato incorrecto').isDate({format:'DD-MM-YYYY'})
+
+    check('FECHA', 'La fecha proporcinada tiene un formato incorrecto').isDate({format:'DD/MM/YYYY'})
+
         .notEmpty().withMessage('La fecha es obligatoria para el registro'),
     validarCampos
 ],agregarRegistroEntrada);
