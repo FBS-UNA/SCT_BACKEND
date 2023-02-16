@@ -12,7 +12,7 @@
 
 ### -- ANGULAR --
 
-🟧 ng g n "Nombre de la Aplicacion"
+🟧 ng n "Nombre de la Aplicacion"
 
 🟧 ng g m "Nombre del Modulo" --flat --routing
 
