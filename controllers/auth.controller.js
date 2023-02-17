@@ -105,8 +105,54 @@ const loginUsuario = async (req = request, res = response) => {
 
 }
 
+const validarUsuario = async (req = request, res = response) => {
+
+    const { CEDULA, NOMBRE } = req;
+    const sql = "SELECT APELLIDO_1, APELLIDO_2, ROL FROM USUARIOS WHERE NOMBRE = :NOMBRE AND CEDULA = :CEDULA"
+
+
+    // Buscamos al usuario en la base de datos
+    let dbResponse = await BD.dbConnection(sql, [NOMBRE, CEDULA], false);
+
+    let usuario = dbResponse.rows.map(usuarioData => {
+        return schema = {
+            'APELLIDO_1': usuarioData[0],
+            'APELLIDO_2': usuarioData[1],
+            'ROL': usuarioData[2]
+        }
+    })[0];
+
+    if (!usuario) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'Error con el Usuario'
+        });
+    }
+
+    return res.status(200).json({
+        OK: true,
+        CEDULA,
+        NOMBRE,
+        APELLIDO_1: usuario.APELLIDO_1,
+        APELLIDO_2: usuario.APELLIDO_2,
+        ROL: usuario.ROL,
+    });
+
+
+    // OK: true,
+    // CEDULA: usuario.CEDULA,
+    // NOMBRE: usuario.NOMBRE,
+    // APELLIDO_1: usuario.APELLIDO_1,
+    // APELLIDO_2: usuario.APELLIDO_2,
+    // ROL: usuario.ROL,
+
+
+
+}
+
 
 module.exports = {
     crearUsuario,
-    loginUsuario
+    loginUsuario,
+    validarUsuario
 }
