@@ -21,7 +21,7 @@ const getAreas = async (req = request, res = response)=>{
 
 
         return res.json({
-            ok:true,
+            OK:true,
             AREAS: areas
         });
         
@@ -62,7 +62,7 @@ const agregarArea = async (req = request, res = response)=>{
 }
 
 const eliminarArea = async (req = request, res = response)=>{
-    const { ID_AREA } = req.body;
+    const ID_AREA = req.header('id-area');
 
     const sql = 'DELETE FROM AREAS WHERE ID_AREA = :ID_AREA';
 
