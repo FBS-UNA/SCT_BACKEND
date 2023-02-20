@@ -13,16 +13,19 @@ const getTramites = async (req = request, res = response)=>{
         let dbresponse = await BD.dbConnection(sql, [], false);
 
         dbresponse.rows.map((data)=>{
-            const tramite = {}
-            dbresponse.metaData.map(({name}, index)=>{
-                tramite[name] = data[index];
-            })
+            const tramite = {
+                'ID_TRAMITE': data[0],
+                'NOMBRE_TRAMITE': data[1],
+                'DESCRIPCION_TRAMITE': data[2],
+                'FECHA': data[3],
+                'ESTADO': data[4] ? true: false,
+            }
             tramites.push(tramite);
         });
 
 
         return res.json({
-            ok:true,
+            OK:true,
             TRAMITES: tramites
         });
         
@@ -61,7 +64,7 @@ const agregaTramite = async (req = request, res = response)=>{
 };
 
 const eliminarTramite = async (req = request, res = response)=>{
-    const { ID_TRAMITE } = req.body;
+    const ID_TRAMITE = req.header('id-tramite'); 
 
     const sql = 'DELETE FROM TRAMITES WHERE ID_TRAMITE = :ID_TRAMITE';
 
@@ -122,10 +125,40 @@ const actualizarTramite = async (req = request, res = response)=>{
 
 }
 
+const actualizarEstadoTramite = async (req = request, res = response)=>{
+    const {ID_TRAMITE, ESTADO} = req.body;
+
+    const sql = "UPDATE TRAMITES SET ESTADO = :ESTADO WHERE ID_TRAMITE = :ID_TRAMITE";
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [ESTADO , ID_TRAMITE], true);
+
+        if(dbresponse.rowsAffected === 0 ){
+            return res.status(400).json({
+                OK: false,
+                MSG: 'Este ID_TRAMITE no es válido'
+            });
+        }
+
+        return res.status(200).json({
+            OK: true
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 
 module.exports = {
     getTramites,
     agregaTramite,
     eliminarTramite,
-    actualizarTramite
+    actualizarTramite,
+    actualizarEstadoTramite
 }
