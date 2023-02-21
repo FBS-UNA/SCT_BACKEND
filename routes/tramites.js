@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
-const { agregaTramite, eliminarTramite, actualizarTramite, getTramites } = require('../controllers/tramites.controller');
+const { check, header } = require('express-validator');
+const { agregaTramite, eliminarTramite, actualizarTramite, getTramites, actualizarEstadoTramite } = require('../controllers/tramites.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
@@ -23,13 +23,18 @@ router.put('/actualizar',[
     validarCampos
 ],actualizarTramite);
 
-// TODO - UPDATE ESTADO DEL TRAMITE
+//UPDATE ESTADO DEL TRAMITE
+router.put('/actualizarestado',[
+    check('ID_TRAMITE', 'El ID_TRAMITE es obligatorio').notEmpty().isNumeric(),
+    check('ESTADO', 'El ESTADO es obligatorio').notEmpty().isNumeric(),
+    validarCampos
+],actualizarEstadoTramite);
 
 
 
 // DELETE TRAMITE
 router.delete('/eliminar',[
-    check('ID_TRAMITE', 'El ID_TRAMITE es obligatorio').notEmpty().isNumeric(),
+    header('id-tramite', 'El ID_TRAMITE es obligatorio').notEmpty().isNumeric(),
     validarCampos
 ],eliminarTramite);
 
