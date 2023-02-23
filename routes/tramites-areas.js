@@ -1,15 +1,21 @@
 const { Router } = require('express');
 const { check, header } = require('express-validator');
-const { getTramitesAreas, updateTramitesAreas } = require('../controllers/tramites-areas.controller');
+const { getTramitesAreas, updateTramitesAreas, getNotTramitesAreas } = require('../controllers/tramites-areas.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
 
 // GET TRAMITES DE UN AREA
-router.get('/',[
+router.get('/estan',[
     header('id-area', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
     validarCampos
 ], getTramitesAreas);
+
+// GET TRAMITES QUE NO ESTAN EN UN AREA
+router.get('/no-estan',[
+    header('id-area', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
+    validarCampos
+], getNotTramitesAreas);
 
 
 // UPDATE TRAMITES DE UN AREA

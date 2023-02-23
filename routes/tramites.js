@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check, header } = require('express-validator');
-const { agregaTramite, eliminarTramite, actualizarTramite, getTramites, actualizarEstadoTramite } = require('../controllers/tramites.controller');
+const { agregaTramite, eliminarTramite, actualizarTramite, getTramites, actualizarEstadoTramite, getTramitesHabilitados } = require('../controllers/tramites.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
@@ -8,6 +8,9 @@ const router = Router();
 
 // GET TRAMITES
 router.get('/', getTramites);
+
+// GET TRAMITES HABILITADOS
+router.get('/habilitados', getTramitesHabilitados);
 
 // ADD TRAMITE
 router.post('/agregar',[
