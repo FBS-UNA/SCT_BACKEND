@@ -2,11 +2,11 @@ const BD = require('../database/config');
 const { response, request } = require('express');
 
 
-const getTramitesAreas = async (req = request, res = response)=>{
+const getTramitesAsociados = async (req = request, res = response)=>{
 
     const ID_AREA = req.header('id-area');
 
-    const sql = 'SELECT T.ID_TRAMITE, T.NOMBRE_TRAMITE FROM TRAMITES T INNER JOIN TRAMITES_AREAS TA ON T.ID_TRAMITE = TA.ID_TRAMITE WHERE T.ESTADO = 1 AND TA.ID_AREA = :ID_AREA';
+    const sql = 'SELECT T.ID_TRAMITE, T.NOMBRE_TRAMITE FROM TRAMITES T INNER JOIN TRAMITES_AREAS TA ON T.ID_TRAMITE = TA.ID_TRAMITE WHERE TA.ID_AREA = :ID_AREA';
 
     const LISTA_TRAMITES_ASOCIADOS = [];
 
@@ -37,11 +37,11 @@ const getTramitesAreas = async (req = request, res = response)=>{
 
 };
 
-const getNotTramitesAreas = async (req = request, res = response)=>{
+const getNotTramitesNoAsociados = async (req = request, res = response)=>{
 
     const ID_AREA = req.header('id-area');
 
-    const sql = 'SELECT T.ID_TRAMITE, T.NOMBRE_TRAMITE FROM TRAMITES T LEFT JOIN TRAMITES_AREAS TA ON T.ID_TRAMITE = TA.ID_TRAMITE WHERE T.ESTADO = 1 AND NOT TA.ID_AREA = :ID_AREA OR TA.ID_AREA IS NULL';
+    const sql = 'SELECT T.ID_TRAMITE, NOMBRE_TRAMITE FROM TRAMITES T WHERE T.ID_TRAMITE NOT IN (SELECT TA.ID_TRAMITE FROM TRAMITES_AREAS TA WHERE TA.ID_AREA = :ID_AREA )';
 
     const LISTA_TRAMITES_NO_ASOCIADOS = [];
 
@@ -72,21 +72,20 @@ const getNotTramitesAreas = async (req = request, res = response)=>{
 
 };
 
-const updateTramitesAreas = async (req = request, res = response)=>{
 
-    const {ID_AREA, IDS_TRAMITES_ASOCIADOS} = req.body;
+const asociarTramiteArea = async (req = request, res = response)=>{
+    const {ID_AREA, ID_TRAMITE} = req.body;
 
-    let idsBinds = IDS_TRAMITES_ASOCIADOS.join(', ');
-
-    let sql = `UPDATE TRAMITES_AREAS SET IDS_TRAMITES_ASOCIADOS = LISTA_TRAMITES_ASO(${idsBinds}) WHERE ID_AREA = :ID_AREA`;
+    const sql = 'INSERT INTO TRAMITES_AREAS (ID_AREA, ID_TRAMITE) VALUES ( :ID_AREA, :ID_TRAMITE )';
 
     try {
 
-        let dbresponse = await BD.dbConnection(sql, [ID_AREA] , true);
+        let dbresponse = await BD.dbConnection(sql, [ID_AREA, ID_TRAMITE], true);
 
-        if(dbresponse.rowsAffected === 0){
+        if(dbresponse.rowsAffected === 0 ){
             return res.status(400).json({
-                OK: false
+                OK: false,
+                MSG: 'No se pudo desasociar el tramite con éxito'
             });
         }
 
@@ -104,8 +103,38 @@ const updateTramitesAreas = async (req = request, res = response)=>{
 
 }
 
+const desasociarTramiteArea = async (req = request, res = response)=>{
+    const {ID_AREA, ID_TRAMITE} = req.body;
+
+    const sql = 'DELETE FROM TRAMITES_AREAS WHERE ID_AREA = :ID_AREA AND ID_TRAMITE = :ID_TRAMITE';
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [ID_AREA, ID_TRAMITE], true);
+
+        if(dbresponse.rowsAffected === 0 ){
+            return res.status(400).json({
+                OK: false,
+                MSG: 'No se pudo asociar el tramite con éxito'
+            });
+        }
+
+        return res.status(200).json({
+            OK: true
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 module.exports = {
-    getTramitesAreas,
-    getNotTramitesAreas,
-    updateTramitesAreas
+    getTramitesAsociados,
+    getNotTramitesNoAsociados,
+    asociarTramiteArea,
+    desasociarTramiteArea
 }

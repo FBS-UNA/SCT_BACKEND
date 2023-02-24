@@ -1,27 +1,38 @@
 const { Router } = require('express');
 const { check, header } = require('express-validator');
-const { getTramitesAreas, updateTramitesAreas, getNotTramitesAreas } = require('../controllers/tramites-areas.controller');
+const { getTramitesAreas, updateTramitesAreas, getNotTramitesAreas, getTramitesAsociados, getNotTramitesNoAsociados, asociarTramiteArea, desasociarTramiteArea } = require('../controllers/tramites-areas.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
 
 // GET TRAMITES DE UN AREA
-router.get('/estan',[
+router.get('/asociados',[
     header('id-area', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
     validarCampos
-], getTramitesAreas);
+], getTramitesAsociados );
 
 // GET TRAMITES QUE NO ESTAN EN UN AREA
-router.get('/no-estan',[
+router.get('/no-asociados',[
     header('id-area', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
     validarCampos
-], getNotTramitesAreas);
+], getNotTramitesNoAsociados);
 
 
-// UPDATE TRAMITES DE UN AREA
-router.put('/update',[
-    check('IDS_TRAMITES_ASOCIADOS', 'La lista de tramites es obligatoria').notEmpty().isArray()
-], updateTramitesAreas);
+// ADD ASOCIAR TRAMITE
+router.post('/asociar',[
+    check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
+    check('ID_TRAMITE', 'El ID_TRAMITE es obligatorio').notEmpty().isNumeric(),
+    validarCampos
+], asociarTramiteArea);
+
+// ADD DESASOCIAR TRAMITE
+router.post('/desasociar',[
+    check('ID_AREA', 'El ID_AREA es obligatorio').notEmpty().isNumeric(),
+    check('ID_TRAMITE', 'El ID_TRAMITE es obligatorio').notEmpty().isNumeric(),
+    validarCampos
+], desasociarTramiteArea);
+
+
 
 
 
