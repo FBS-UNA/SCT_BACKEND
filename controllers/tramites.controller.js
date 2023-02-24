@@ -39,6 +39,37 @@ const getTramites = async (req = request, res = response)=>{
 
 };
 
+const getTramitesHabilitados = async (req = request, res = response)=>{
+    const sql = 'SELECT * FROM TRAMITES WHERE ESTADO = 1';
+    const tramites = [];
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [], false);
+
+        dbresponse.rows.map((data)=>{
+            const tramite = {
+                'ID_TRAMITE': data[0],
+                'NOMBRE_TRAMITE': data[1]
+            }
+            tramites.push(tramite);
+        });
+
+
+        return res.json({
+            OK:true,
+            TRAMITES: tramites
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+}
+
 const agregaTramite = async (req = request, res = response)=>{
     const {NOMBRE_TRAMITE, DESCRIPCION_TRAMITE, FECHA} = req.body;
 
@@ -160,5 +191,6 @@ module.exports = {
     agregaTramite,
     eliminarTramite,
     actualizarTramite,
-    actualizarEstadoTramite
+    actualizarEstadoTramite,
+    getTramitesHabilitados
 }

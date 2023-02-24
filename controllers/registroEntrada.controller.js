@@ -13,6 +13,7 @@ const agregarRegistroEntrada = async (req = request, res = response) => {
 
     const sql = "INSERT INTO REGISTRO_ENTRADA (CEDULA_CLIENTE, AREA_DESTINO, MOTIVO_VISITA, FECHA_Y_HORA) VALUES (:CEDULA_CLIENTE, :AREA_DESTINO, :MOTIVO_VISITA, TO_DATE(:FECHA_Y_HORA, 'DD/MM/YYYY HH24:MI:SS'))";
 
+
     try {
 
         await BD.dbConnection(sql, [CEDULA_CLIENTE, AREA_DESTINO, MOTIVO_VISITA, FECHA_Y_HORA ], true);
