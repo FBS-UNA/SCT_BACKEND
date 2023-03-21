@@ -6,15 +6,15 @@ const { response, request } = require('express');
 
 const agregarRegistroTramite = async (req = request, res = response) => {
 
-    const { CEDULA_CLIENTE, TRAMITE, DESCRIPCION, HORA, FECHA } = req.body;
+    const { CEDULA_CLIENTE, NOMBRE_TRAMITE, ID_TRAMITE, DESCRIPCION, HORA, FECHA } = req.body;
     const FECHA_Y_HORA = FECHA + ' ' + HORA;
 
-    const sql = "INSERT INTO REGISTRO_TRAMITE (CEDULA_CLIENTE, TRAMITE, DESCRIPCION, FECHA_Y_HORA) VALUES (:CEDULA_CLIENTE, :TRAMITE, :DESCRIPCION, TO_DATE(:FECHA_Y_HORA, 'DD/MM/YYYY HH24:MI:SS'))";
+    const sql = "INSERT INTO REGISTRO_TRAMITE (CEDULA_CLIENTE, ID_TRAMITE, DESCRIPCION, FECHA_Y_HORA) VALUES (:CEDULA_CLIENTE, :ID_TRAMITE, :DESCRIPCION, TO_DATE(:FECHA_Y_HORA, 'DD/MM/YYYY HH24:MI:SS'))";
 
 
     try {
 
-        await BD.dbConnection(sql, [CEDULA_CLIENTE, TRAMITE, DESCRIPCION, FECHA_Y_HORA ], true);
+        await BD.dbConnection(sql, [CEDULA_CLIENTE, ID_TRAMITE, DESCRIPCION, FECHA_Y_HORA ], true);
 
         return res.status(201).json({
             OK: true
@@ -27,6 +27,7 @@ const agregarRegistroTramite = async (req = request, res = response) => {
             MSG: 'Por favor hable con el administrador'
         });
     }
+
 };
 
 module.exports = {
