@@ -1,7 +1,8 @@
 const BD = require('../database/config');
 const { response, request } = require('express');
 
-const getUsuario= async (req = request, res = response)=>{
+
+const getUsuarios= async (req = request, res = response)=>{
 
     const sql = 'SELECT * FROM USUARIOS';
     const usuarios = [];
@@ -15,13 +16,12 @@ const getUsuario= async (req = request, res = response)=>{
             dbresponse.metaData.map(({name}, index)=>{
                 usuario[name] = data[index];
             })
-            usuarios.push(area);
+            usuarios.push(usuario);
         });
-
-
+        
         return res.json({
             OK:true,
-            USUARIOS: areas
+            USUARIOS: usuarios
         });
         
     } catch (error) {
@@ -35,5 +35,5 @@ const getUsuario= async (req = request, res = response)=>{
 };
 
 module.exports = {
-    getUsuario
+    getUsuarios
 }
