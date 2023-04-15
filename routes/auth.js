@@ -14,6 +14,7 @@ router.post( '/register', [
     check('APELLIDO_1', 'El apellido_1 es obligatorio').notEmpty(),
     check('APELLIDO_2', 'El apellido_2 es obligatorio').notEmpty(),
     check('ROL', 'El rol es obligatorio').notEmpty(),
+    check('FECHA_NAC', 'La fecha de nacimiento es obligatoria').notEmpty(),
     validarCampos
 ], crearUsuario);
 
