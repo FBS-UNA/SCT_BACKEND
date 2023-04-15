@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { crearUsuario, loginUsuario, validarUsuario } = require('../controllers/auth.controller');
+const { crearUsuario, loginUsuario, validarUsuario, getUsuario } = require('../controllers/auth.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-JWT');
 
@@ -29,5 +29,8 @@ router.post('/login',[
 
 // Validar Token
 router.get('/validartoken', validarJWT, validarUsuario);
+
+// Get Usuarios
+router.get('/getUsuario', getUsuario);
 
 module.exports = router;
