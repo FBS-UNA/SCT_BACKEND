@@ -12,7 +12,7 @@ const getTramitesAsociados = async (req = request, res = response)=>{
     const ID_AREA = req.header('id-area');
     const habilitados = req.header('habilitados');
 
-    if(habilitados){
+    if(habilitados != -1){
         sql += ' AND T.ESTADO = ' + (habilitados == 1 ? 1 : 0);
     }
     
