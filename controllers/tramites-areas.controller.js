@@ -8,7 +8,6 @@ const getTramitesAsociados = async (req = request, res = response)=>{
     let sql = 'SELECT T.ID_TRAMITE, T.NOMBRE_TRAMITE FROM TRAMITES T INNER JOIN TRAMITES_AREAS TA ON T.ID_TRAMITE = TA.ID_TRAMITE WHERE TA.ID_AREA = :ID_AREA';
     const LISTA_TRAMITES_ASOCIADOS = [];
     
-
     const ID_AREA = req.header('id-area');
     const habilitados = req.header('habilitados');
 
