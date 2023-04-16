@@ -2,14 +2,20 @@ const BD = require('../database/config');
 const { response, request } = require('express');
 
 
+
 const getTramitesAsociados = async (req = request, res = response)=>{
 
-    const ID_AREA = req.header('id-area');
-
-    const sql = 'SELECT T.ID_TRAMITE, T.NOMBRE_TRAMITE FROM TRAMITES T INNER JOIN TRAMITES_AREAS TA ON T.ID_TRAMITE = TA.ID_TRAMITE WHERE TA.ID_AREA = :ID_AREA';
-
+    let sql = 'SELECT T.ID_TRAMITE, T.NOMBRE_TRAMITE FROM TRAMITES T INNER JOIN TRAMITES_AREAS TA ON T.ID_TRAMITE = TA.ID_TRAMITE WHERE TA.ID_AREA = :ID_AREA';
     const LISTA_TRAMITES_ASOCIADOS = [];
+    
 
+    const ID_AREA = req.header('id-area');
+    const habilitados = req.header('habilitados');
+
+    if(habilitados){
+        sql += ' AND T.ESTADO = ' + (habilitados == 1 ? 1 : 0);
+    }
+    
     try {
 
         let dbresponse = await BD.dbConnection(sql, [ID_AREA], false);
