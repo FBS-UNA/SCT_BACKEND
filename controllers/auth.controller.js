@@ -4,10 +4,10 @@ const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
 const crearUsuario = async (req = request, res = response) => {
-    const { CEDULA, NOMBRE, APELLIDO_1, APELLIDO_2, ROL } = req.body;
+    const { CEDULA, NOMBRE, APELLIDO_1, APELLIDO_2, FECHA_NAC } = req.body;
     let { CONTRASENA } = req.body
 
-    const sql = 'INSERT INTO USUARIOS VALUES (:CEDULA, :CONTRASENA, :NOMBRE, :APELLIDO_1, :APELLIDO_2, :ROL)';
+    const sql = 'INSERT INTO USUARIOS VALUES (:CEDULA, :CONTRASENA, :NOMBRE, :APELLIDO_1, :APELLIDO_2, :FECHA_NAC)';
 
     try {
         //Encriptar la contraseña
@@ -18,7 +18,7 @@ const crearUsuario = async (req = request, res = response) => {
         const TOKEN = await generarJWT(CEDULA, NOMBRE);
 
         //Agregar a la base de datos
-        await BD.dbConnection(sql, [CEDULA, CONTRASENA, NOMBRE, APELLIDO_1, APELLIDO_2, ROL], true);
+        await BD.dbConnection(sql, [CEDULA, CONTRASENA, NOMBRE, APELLIDO_1, APELLIDO_2, FECHA_NAC], true);
 
 
         // Genera Respuesta exitosa
