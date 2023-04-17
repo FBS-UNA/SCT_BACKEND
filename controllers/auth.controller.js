@@ -4,10 +4,10 @@ const bcrypt = require('bcryptjs');
 const { generarJWT } = require('../helpers/jwt');
 
 const crearUsuario = async (req = request, res = response) => {
-    const { CEDULA, NOMBRE, APELLIDO_1, APELLIDO_2, ROL } = req.body;
+    const { CEDULA, NOMBRE, APELLIDO_1, APELLIDO_2, FECHA_NAC } = req.body;
     let { CONTRASENA } = req.body
 
-    const sql = 'INSERT INTO USUARIOS VALUES (:CEDULA, :CONTRASENA, :NOMBRE, :APELLIDO_1, :APELLIDO_2, :ROL)';
+    const sql = 'INSERT INTO USUARIOS VALUES (:CEDULA, :CONTRASENA, :NOMBRE, :APELLIDO_1, :APELLIDO_2, :FECHA_NAC)';
 
     try {
         //Encriptar la contraseña
@@ -18,7 +18,7 @@ const crearUsuario = async (req = request, res = response) => {
         const TOKEN = await generarJWT(CEDULA, NOMBRE);
 
         //Agregar a la base de datos
-        await BD.dbConnection(sql, [CEDULA, CONTRASENA, NOMBRE, APELLIDO_1, APELLIDO_2, ROL], true);
+        await BD.dbConnection(sql, [CEDULA, CONTRASENA, NOMBRE, APELLIDO_1, APELLIDO_2, FECHA_NAC], true);
 
 
         // Genera Respuesta exitosa
@@ -28,7 +28,6 @@ const crearUsuario = async (req = request, res = response) => {
             NOMBRE,
             APELLIDO_1,
             APELLIDO_2,
-            ROL,
             TOKEN
         });
 
@@ -47,7 +46,8 @@ const loginUsuario = async (req = request, res = response) => {
 
     const { CEDULA, CONTRASENA } = req.body;
 
-    const sql = 'SELECT * FROM USUARIOS WHERE CEDULA = :CEDULA';
+    const sql = 'SELECT CEDULA, CONTRASENA, NOMBRE, APELLIDO_1, APELLIDO_2 FROM USUARIOS WHERE CEDULA = :CEDULA';
+    const sqlRoles = 'SELECT NOMBRE_ROL FROM USUARIOS_ROLES WHERE CEDULA_USUARIO = :CEDULA';
 
     try {
 
@@ -59,8 +59,7 @@ const loginUsuario = async (req = request, res = response) => {
                 'CONTRASENA': usuarioData[1],
                 'NOMBRE': usuarioData[2],
                 'APELLIDO_1': usuarioData[3],
-                'APELLIDO_2': usuarioData[4],
-                'ROL': usuarioData[5]
+                'APELLIDO_2': usuarioData[4]
             }
         })[0];
 
@@ -81,6 +80,15 @@ const loginUsuario = async (req = request, res = response) => {
             });
         }
 
+        //Cargar roles del usuario
+        dbResponse = await BD.dbConnection(sqlRoles, [CEDULA], false);
+
+        let roles = dbResponse.rows.map(rolesData => {
+            return rolesData[0];
+        }).flat();
+
+
+
         // Generar un JWT
         const TOKEN = await generarJWT(CEDULA, usuario.NOMBRE);
 
@@ -90,7 +98,7 @@ const loginUsuario = async (req = request, res = response) => {
             NOMBRE: usuario.NOMBRE,
             APELLIDO_1: usuario.APELLIDO_1,
             APELLIDO_2: usuario.APELLIDO_2,
-            ROL: usuario.ROL,
+            ROL: roles,
             TOKEN
         });
 
@@ -108,7 +116,8 @@ const loginUsuario = async (req = request, res = response) => {
 const validarUsuario = async (req = request, res = response) => {
 
     const { CEDULA, NOMBRE } = req;
-    const sql = "SELECT APELLIDO_1, APELLIDO_2, ROL FROM USUARIOS WHERE NOMBRE = :NOMBRE AND CEDULA = :CEDULA"
+    const sql = "SELECT APELLIDO_1, APELLIDO_2 FROM USUARIOS WHERE NOMBRE = :NOMBRE AND CEDULA = :CEDULA"
+    const sqlRoles = 'SELECT NOMBRE_ROL FROM USUARIOS_ROLES WHERE CEDULA_USUARIO = :CEDULA';
 
 
     // Buscamos al usuario en la base de datos
@@ -129,24 +138,21 @@ const validarUsuario = async (req = request, res = response) => {
         });
     }
 
+    //Cargar roles del usuario
+    dbResponse = await BD.dbConnection(sqlRoles, [CEDULA], false);
+
+    let roles = dbResponse.rows.map(rolesData => {
+        return rolesData[0];
+    }).flat();
+
     return res.status(200).json({
         OK: true,
         CEDULA,
         NOMBRE,
         APELLIDO_1: usuario.APELLIDO_1,
         APELLIDO_2: usuario.APELLIDO_2,
-        ROL: usuario.ROL,
+        ROL: roles,
     });
-
-
-    // OK: true,
-    // CEDULA: usuario.CEDULA,
-    // NOMBRE: usuario.NOMBRE,
-    // APELLIDO_1: usuario.APELLIDO_1,
-    // APELLIDO_2: usuario.APELLIDO_2,
-    // ROL: usuario.ROL,
-
-
 
 }
 
