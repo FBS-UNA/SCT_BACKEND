@@ -35,16 +35,16 @@ const getAreas = async (req = request, res = response)=>{
 
 };
 
-const getAreaPorNombre = async (req = request, res = response)=>{
+const getAreasPorUsuario = async (req = request, res = response)=>{
 
 
-    const NOMBRE_AREA = req.header('nombre-area');
-    const sql = 'SELECT * FROM AREAS WHERE NOMBRE_AREA = :NOMBRE_AREA';
-    const area = {}
+    const CEDULA_USUARIO = req.header('cedula-usuario');
+    const sql = 'SELECT ID_AREA, NOMBRE_AREA FROM AREAS_POR_USUARIO WHERE CEDULA_USUARIO = :CEDULA_USUARIO';
+    const areas = [];
 
     try {
 
-        let dbresponse = await BD.dbConnection(sql, [NOMBRE_AREA], false);
+        let dbresponse = await BD.dbConnection(sql, [CEDULA_USUARIO], false);
 
         if(dbresponse.rows.length === 0){
             return res.status(404).json({
@@ -54,14 +54,16 @@ const getAreaPorNombre = async (req = request, res = response)=>{
         }
 
         dbresponse.rows.map((data)=>{
+            const area = {}
             dbresponse.metaData.map(({name}, index)=>{
                 area[name] = data[index];
             })
+            areas.push(area);
         });
 
         return res.json({
             OK:true,
-            AREA: area
+            AREAS: areas
         });
         
     } catch (error) {
@@ -168,5 +170,5 @@ module.exports = {
     eliminarArea,
     actualizarArea,
     getAreas,
-    getAreaPorNombre
+    getAreasPorUsuario
 }
