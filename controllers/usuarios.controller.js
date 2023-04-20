@@ -68,6 +68,7 @@ const getRolesUsuarios= async (req = request, res = response)=>{
 };
  
 //PETICION QUE SE USARA PARA EL REGISTRO DEL TRAMITE
+/*
   getUsuarioConRoles = async (req = request, res = response) => {
     const { CEDULA_USUARIO } = req.body;
   
@@ -98,7 +99,7 @@ const getRolesUsuarios= async (req = request, res = response)=>{
       });
     }
   };
-  
+  */
 // PETICION PARA ASIGNARLE ROLES AL USUARIO
     asignarRolesUsuario = async (req = request, res = response) => {
     const { CEDULA_USUARIO, ROLES } = req.body;
