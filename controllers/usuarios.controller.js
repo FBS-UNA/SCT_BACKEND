@@ -68,7 +68,7 @@ const getRolesUsuarios= async (req = request, res = response)=>{
 };
  
 //PETICION QUE SE USARA PARA EL REGISTRO DEL TRAMITE
- getUsuarioConRoles = async (req = request, res = response) => {
+  getUsuarioConRoles = async (req = request, res = response) => {
     const { CEDULA_USUARIO } = req.body;
   
     try {
