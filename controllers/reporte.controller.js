@@ -28,9 +28,6 @@ const getReporte = async(req = request, res = response)=>{
             REPORTE: reporteCompleto
         });
 
-
-
-        
     } catch (error) {
         console.log(error);
         return res.status(500).json({
