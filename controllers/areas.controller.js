@@ -35,6 +35,47 @@ const getAreas = async (req = request, res = response)=>{
 
 };
 
+const getAreasPorUsuario = async (req = request, res = response)=>{
+
+
+    const CEDULA_USUARIO = req.header('cedula-usuario');
+    const sql = 'SELECT ID_AREA, NOMBRE_AREA FROM AREAS_POR_USUARIO WHERE CEDULA_USUARIO = :CEDULA_USUARIO';
+    const areas = [];
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [CEDULA_USUARIO], false);
+
+        if(dbresponse.rows.length === 0){
+            return res.status(404).json({
+                OK: false,
+                MSG: 'No se encontró ningún área registrada con el nombre proporcionada'
+            });
+        }
+
+        dbresponse.rows.map((data)=>{
+            const area = {}
+            dbresponse.metaData.map(({name}, index)=>{
+                area[name] = data[index];
+            })
+            areas.push(area);
+        });
+
+        return res.json({
+            OK:true,
+            AREAS: areas
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+
+};
+
 const agregarArea = async (req = request, res = response)=>{
     const {NOMBRE_AREA, DESCRIPCION_AREA, FECHA} = req.body;
 
@@ -128,5 +169,6 @@ module.exports = {
     agregarArea,
     eliminarArea,
     actualizarArea,
-    getAreas
+    getAreas,
+    getAreasPorUsuario
 }
