@@ -25,6 +25,7 @@ app.use( '/api/registroTramite', require('./routes/registroTramite'));
 app.use( '/api/tramites-areas', require('./routes/tramites-areas'));
 app.use( '/api/usuarios', require('./routes/usuarios'));
 app.use( '/api/roles', require('./routes/roles'));
+app.use( '/api/reporte', require('./routes/reporte'));
 
 
 
