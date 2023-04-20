@@ -35,6 +35,45 @@ const getAreas = async (req = request, res = response)=>{
 
 };
 
+const getAreaPorNombre = async (req = request, res = response)=>{
+
+
+    const NOMBRE_AREA = req.header('nombre-area');
+    const sql = 'SELECT * FROM AREAS WHERE NOMBRE_AREA = :NOMBRE_AREA';
+    const area = {}
+
+    try {
+
+        let dbresponse = await BD.dbConnection(sql, [NOMBRE_AREA], false);
+
+        if(dbresponse.rows.length === 0){
+            return res.status(404).json({
+                OK: false,
+                MSG: 'No se encontró ningún área registrada con el nombre proporcionada'
+            });
+        }
+
+        dbresponse.rows.map((data)=>{
+            dbresponse.metaData.map(({name}, index)=>{
+                area[name] = data[index];
+            })
+        });
+
+        return res.json({
+            OK:true,
+            AREA: area
+        });
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            OK: false,
+            MSG: 'Por favor hable con el administrador'
+        });
+    }
+
+};
+
 const agregarArea = async (req = request, res = response)=>{
     const {NOMBRE_AREA, DESCRIPCION_AREA, FECHA} = req.body;
 
@@ -128,5 +167,6 @@ module.exports = {
     agregarArea,
     eliminarArea,
     actualizarArea,
-    getAreas
+    getAreas,
+    getAreaPorNombre
 }
