@@ -11,7 +11,7 @@ router.get('/', getUsuarios);
 // GET ROLES DE USUARIOS
 router.get('/rolesusuario', getRolesUsuarios);
 
-router.get('/rolesporusuario', getUsuarioConRoles);
+// router.get('/rolesporusuario', getUsuarioConRoles);
 
 router.post('/asignarroles', asignarRolesUsuario);
 
