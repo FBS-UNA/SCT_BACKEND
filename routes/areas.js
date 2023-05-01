@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check, header } = require('express-validator');
-const { agregarArea, eliminarArea, actualizarArea, getAreas } = require('../controllers/areas.controller');
+const { agregarArea, eliminarArea, actualizarArea, getAreas, getAreasPorUsuario } = require('../controllers/areas.controller');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 
@@ -9,6 +9,11 @@ const router = Router();
 
 // GET AREAS
 router.get('/', getAreas);
+
+router.get('/areas-por-usuario',[
+    header('cedula-usuario', 'La cédula del usuario es obligatoria').notEmpty(),
+    validarCampos
+], getAreasPorUsuario)
 
 // ADD AREA
 router.post('/agregar',[
