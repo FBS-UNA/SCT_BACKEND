@@ -8,4 +8,5 @@ const router = Router();
 router.get('/', getReporte)
 
 
+
 module.exports = router;
