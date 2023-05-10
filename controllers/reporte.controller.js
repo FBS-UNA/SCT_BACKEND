@@ -19,6 +19,7 @@ const getReporte = async(req = request, res = response)=>{
                 'NOMBRE_CLIENTE': data[3],
                 'NOMBRE_USUARIO': data[4],
                 'FECHA_Y_HORA': data[5],
+                'CEDULA': data[6],
             }
             reporteCompleto.push(reporte);
         });
