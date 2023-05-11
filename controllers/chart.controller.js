@@ -13,8 +13,8 @@ const getDonutTramites = async (req = request, res = response)=>{
 
         dbresponse.rows.map((data)=>{
             const donutTramite = {
-                'NOMBRE_TRAMITE' : data[0],
-                'CANTIDAD' : data[1],
+                'LABEL' : data[0],
+                'DATA' : data[1],
             }
             donutTramitesData.push(donutTramite);
         })
@@ -44,8 +44,8 @@ const getDonutAreas = async (req = request, res = response)=>{
 
         dbresponse.rows.map((data)=>{
             const donutArea = {
-                'NOMBRE_AREA' : data[0],
-                'CANTIDAD' : data[1]
+                'LABEL' : data[0],
+                'DATA' : data[1],
             }
             donutAreasData.push(donutArea);
         })
@@ -80,7 +80,7 @@ const getTotalRegistros = async (req = request, res = response)=>{
 
         return res.json({
             OK: true,
-            CANTIDAD_REGISTROS : cantidadRegistros
+            DATA : cantidadRegistros
         });
    
     } catch (error) {
@@ -104,8 +104,8 @@ const getCantidadReportesPorMes = async (req = request, res = response)=>{
 
         dbresponse.rows.map((data)=>{
             const registroPorMes = {
-                "MES" : data[0],
-                "CANTIDAD" : data[1]
+                'LABEL' : data[0],
+                'DATA' : data[1],
             }
 
             lineCantidadRegistrosPorMesData.push(registroPorMes);
@@ -136,8 +136,8 @@ const getCantidadReportesPorAnnio = async (req = request, res = response)=>{
 
         dbresponse.rows.map((data)=>{
             const registroPorAnnio = {
-                "ANNIO" : data[0],
-                "CANTIDAD" : data[1]
+                'LABEL' : data[0],
+                'DATA' : data[1],
             }
 
             lineCantidadRegistrosPorAnnioData.push(registroPorAnnio);
