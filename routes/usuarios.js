@@ -7,8 +7,5 @@ const router = Router();
 // GET USUARIOS
 router.get('/', getUsuarios);
 
-// router.get('/rolesporusuario', getUsuarioConRoles);
-
-// router.post('/asignarroles', asignarRolesUsuario);
 
 module.exports = router;
