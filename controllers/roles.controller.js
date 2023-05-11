@@ -69,14 +69,14 @@ const getRolesUsuarios = async (req = request, res = response) => {
 
 
 const updateRolesUsuario = async (req = request, res = response) => {
-    const { CEDULA_USUARIO, ROLES } = req.body;
+    const { CEDULA_USUARIO, NOMBRE_ROL } = req.body;
+
+    const sql = 'INSERT INTO USUARIOS_ROLES (NOMBRE_ROL, CEDULA_USUARIO) VALUES (:NOMBRE_ROL, :CEDULA_USUARIO)';
 
     try {
-        for (const rol of ROLES) {
-            const { NOMBRE_ROL } = rol;
-            const sql = 'INSERT INTO USUARIOS_ROLES (NOMBRE_ROL, CEDULA_USUARIO) VALUES (:NOMBRE_ROL, :CEDULA_USUARIO)';
-            await BD.dbConnection(sql, [NOMBRE_ROL, CEDULA_USUARIO], true);
-        }
+
+        await BD.dbConnection(sql, [NOMBRE_ROL, CEDULA_USUARIO], true);
+
 
         return res.json({
             OK: true,
@@ -92,7 +92,7 @@ const updateRolesUsuario = async (req = request, res = response) => {
 };
 
 
-const deleteRolesUsuario = async (req = request, res = response)=>{
+const deleteRolesUsuario = async (req = request, res = response) => {
     const { CEDULA_USUARIO } = req.body;
 
     const sql = 'DELETE FROM USUARIOS_ROLES WHERE CEDULA_USUARIO = :CEDULA_USUARIO';
@@ -101,17 +101,17 @@ const deleteRolesUsuario = async (req = request, res = response)=>{
 
         let dbresponse = await BD.dbConnection(sql, [CEDULA_USUARIO], true);
 
-        if(dbresponse.rowsAffected === 0 ){
+        /*if (dbresponse.rowsAffected === 0) {
             return res.status(400).json({
                 OK: false,
                 MSG: 'Este Usuario no es válido'
             });
-        }
+        }*/
 
         return res.status(200).json({
             OK: true
         });
-        
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({
