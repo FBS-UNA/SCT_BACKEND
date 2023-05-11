@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check, header } = require('express-validator');
-const { getDonutTramites, getDonutAreas, getTotalRegistros, getCantidadReportesPorMes, getCantidadReportesPorAnnio } = require('../controllers/chart.controlle');
+const { getDonutTramites, getDonutAreas, getTotalRegistros, getCantidadReportesPorMes, getCantidadReportesPorAnnio } = require('../controllers/chart.controller');
 
 
 const router = Router();

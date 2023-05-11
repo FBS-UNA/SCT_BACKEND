@@ -67,15 +67,16 @@ const getDonutAreas = async (req = request, res = response)=>{
 const getTotalRegistros = async (req = request, res = response)=>{
 
     const sql = 'SELECT COUNT(*) AS CANTIDAD_REGISTROS FROM REGISTRO_TRAMITE';
-    const cantidadRegistros = 0;
+    let cantidadRegistros = 0;
 
     try {
 
         let dbresponse = await BD.dbConnection(sql, [], false);
-
+        
         dbresponse.rows.map((data)=>{
-             cantidadRegistros = data[0]
+            cantidadRegistros = data[0]
         })
+
 
         return res.json({
             OK: true,
@@ -93,7 +94,7 @@ const getTotalRegistros = async (req = request, res = response)=>{
 
 const getCantidadReportesPorMes = async (req = request, res = response)=>{
 
-    const sql = "SELECT TO_CHAR(FECHA_Y_HORA, 'MONTH') AS MES, COUNT(*) AS CANTIDAD FROM REGISTRO_TRAMITE RT GROUP BY TO_CHAR(FECHA_Y_HORA, 'MONTH')";
+    const sql = "SELECT TRIM(TO_CHAR(FECHA_Y_HORA, 'MONTH')) AS MES, COUNT(*) AS CANTIDAD FROM REGISTRO_TRAMITE RT GROUP BY TO_CHAR(FECHA_Y_HORA, 'MONTH')";
     const lineCantidadRegistrosPorMesData = [];
 
 
