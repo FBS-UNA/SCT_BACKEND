@@ -19,3 +19,5 @@ router.get('/total-registros/mes', getCantidadReportesPorMes);
 
 // GET TOTAL DE REGISTROS POR ANNIO
 router.get('/total-registros/annio', getCantidadReportesPorAnnio);
+
+module.exports = router;
