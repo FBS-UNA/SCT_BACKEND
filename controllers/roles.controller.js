@@ -22,7 +22,6 @@ const getRoles = async (req = request, res = response) => {
             OK: true,
             ROLES: roles
         });
-
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -32,8 +31,6 @@ const getRoles = async (req = request, res = response) => {
     }
 
 };
-
-
 const getRolesUsuarios = async (req = request, res = response) => {
 
     const { CEDULA_USUARIO } = req.body;
@@ -120,9 +117,6 @@ const deleteRolesUsuario = async (req = request, res = response) => {
         });
     }
 }
-
-
-
 
 module.exports = {
     getRoles,

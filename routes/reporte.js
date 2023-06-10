@@ -7,6 +7,4 @@ const router = Router();
 // GET REPORTE COMPLETO
 router.get('/', getReporte)
 
-
-
 module.exports = router;
