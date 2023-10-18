@@ -8,7 +8,6 @@ const crearUsuario = async (req = request, res = response) => {
     let { CONTRASENA } = req.body
 
     const sql = 'INSERT INTO USUARIOS VALUES (:CEDULA, :CONTRASENA, :NOMBRE, :APELLIDO_1, :APELLIDO_2, :FECHA_NAC)';
-
     try {
         //Encriptar la contraseña
         const salt = await bcrypt.genSalt();
